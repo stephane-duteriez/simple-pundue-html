@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<header></header>
+
+<body>
+  <h1>Pendu</h1>
+  <div id="hint">________</div>
+  <form>
+    <input type="text" id="text" value="" />
+    <button id="valide" type="button">valide</button>
+    <div id="result"></div>
+  </form>
+  <script type="text/javascript">
+    var replaceCharater = function (word, propositions) {
+      temp = "";
+      [...word].forEach((c) => {
+        if (propositions.indexOf(c) != -1) {
+          temp += c + " ";
+        } else {
+          temp += "_ ";
+        }
+      });
+      return temp;
+    };
+    function getRandomInt(max) {
+      return Math.floor(Math.random() * max);
+    }
+    document.addEventListener("DOMContentLoaded", function (event) {
+      var listWords = [
+        "hello",
+        "mamman",
+        "maison",
+        "voiture",
+        "lampe",
+        "ordinateur",
+        "liver",
+      ];
+      var secret = listWords[getRandomInt(listWords.length)];
+      var guesses = [];
+      var tryLeft = 8;
+      var partialResponse = secret.replace(/./g, "_ ");
+      document.getElementById("hint").innerHTML = partialResponse;
+      document
+        .getElementById("valide")
+        .addEventListener("click", function (event) {
+          var input = document.getElementById("text").value;
+          if (input.length === 1) {
+            guesses.push(input.toUpperCase());
+            partialResponse = replaceCharater(secret.toUpperCase(), guesses);
+            if (secret.includes(input)) {
+              document.getElementById("result").innerHTML = "Bien joué";
+            } else {
+              tryLeft -= 1;
+              document.getElementById("result").innerHTML =
+                "Mauvais proposition : " +
+                input +
+                ", il vous reste " +
+                tryLeft +
+                " proposition(s).";
+            }
+
+            document.getElementById("hint").innerHTML = partialResponse;
+            document.getElementById("text").value = "";
+          } else {
+            if (secret === input) {
+              document.getElementById("result").innerHTML = "BRAVO";
+            } else {
+              tryLeft -= 1;
+              if (tryLeft > 0) {
+                document.getElementById("result").innerHTML =
+                  "Mauvaise réponse" +
+                  ", il vous reste " +
+                  tryLeft +
+                  " proposition(s).";
+              } else {
+                document.getElementById("result").innerHTML =
+                  "Vous avez perdut";
+              }
+            }
+          }
+        });
+    });
+  </script>
+</body>
