@@ -2,7 +2,8 @@
 <header></header>
 
 <body>
-  <h1>Pendu</h1>
+  <h1>Pendue</h1>
+  <canvas id="pendue" width="200" height="100" style="border:1px solid #000000;"></canvas>
   <div id="hint">________</div>
   <form>
     <input type="text" id="text" value="" />
@@ -32,20 +33,92 @@
         "voiture",
         "lampe",
         "ordinateur",
-        "liver",
+        "livre",
       ];
-      var secret = listWords[getRandomInt(listWords.length)];
+      var secret = ""
       var guesses = [];
       var tryLeft = 8;
-      var partialResponse = secret.replace(/./g, "_ ");
-      document.getElementById("hint").innerHTML = partialResponse;
+      var partial = "";
+      var  reset = function() {
+        guesses = []
+        tryLeft = 0
+        secret = listWords[getRandomInt(listWords.length)];
+        document.getElementById("hint").innerHTML = secret.replace(/./g, "_ ");;
+      }
+      reset();
+      var c = document.getElementById("pendue");
+      var ctx = c.getContext("2d");
+      vzzr drawIt = [
+        function() {
+          ctx.moveTo(50, 90);
+          ctx.lineTo(70, 90);
+          ctx.stroke()
+        },
+        function() {
+          ctx.moveTo(60, 90);
+      ctx.lineTo(60, 20);
+      ctx.stroke();
+        },
+        function() {
+          ctx.moveTo(50, 90);
+      ctx.lineTo(70, 90);
+          ctx.stroke()
+        },
+        function() {
+          ctx.moveTo(60, 20);
+      ctx.lineTo(90, 20);
+        },
+        function() {
+          ctx.moveTo(90, 20);
+      ctx.lineTo(90, 30);
+      ctx.stroke()
+        },
+        function() {
+          ctx.beginPath();
+      ctx.arc(90, 37, 7, 0, 2 * Math.PI);
+      ctx.stroke();
+        },
+        function() {
+          ctx.moveTo(90, 42);
+      ctx.lineTo(90, 62);
+      ctx.stroke()
+        },
+        function() {
+          ctx.moveTo(90, 62);
+      ctx.lineTo(80, 82);
+      ctx.stroke()
+        },
+        function() {
+          ctx.moveTo(90, 62);
+      ctx.lineTo(100, 82);
+        },
+function() {
+  ctx.moveTo(90, 62);
+      ctx.lineTo(100, 82);
+},
+function() {
+  ctx.moveTo(90, 42);
+      ctx.lineTo(100, 62);
+}
+      ]
+
+
+
+
+      
+
+      
+     
+      
+      ctx.moveTo(90, 42);
+      ctx.lineTo(80, 62);
+      ctx.stroke();
       document
         .getElementById("valide")
         .addEventListener("click", function (event) {
           var input = document.getElementById("text").value;
           if (input.length === 1) {
             guesses.push(input.toUpperCase());
-            partialResponse = replaceCharater(secret.toUpperCase(), guesses);
             if (secret.includes(input)) {
               document.getElementById("result").innerHTML = "Bien joué";
             } else {
@@ -57,12 +130,12 @@
                 tryLeft +
                 " proposition(s).";
             }
-
-            document.getElementById("hint").innerHTML = partialResponse;
+            document.getElementById("hint").innerHTML = replaceCharater(secret.toUpperCase(), guesses);;
             document.getElementById("text").value = "";
           } else {
             if (secret === input) {
               document.getElementById("result").innerHTML = "BRAVO";
+              document.getElementById("hint").innerHTML = seccret;
             } else {
               tryLeft -= 1;
               if (tryLeft > 0) {
